@@ -16,7 +16,7 @@ namespace OOPsReview09
             {
                 if (IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentNullException("The Title is required parameter");
+                    throw new ArgumentNullException("The Title need to have required parameter");
 
                     _Title = value;
                 }
