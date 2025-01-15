@@ -11,6 +11,8 @@ namespace OOPsReviewJan14
         #region Data Member
         private string _Title;
         private double _Years;
+        private SupervisoryLevel _Level;
+
         #endregion
 
 
@@ -44,7 +46,26 @@ namespace OOPsReviewJan14
                 _Years = value;
             }
         }
+
+        public SupervisoryLevel Level
+        {
+            get { return _Level; }
+            private set
+            {
+                // Enum.IsDefined(typeof(SupervisoryLevel), value)
+                if (!Enum.IsDefined(typeof(SupervisoryLevel), value))
+                {
+                    throw new ArgumentException($"Supervisory Level ({value}) is Invalid");
+                }
+                _Level = value;
+
+            }
+        }
+
+        public DateTime StartDate { get; set; }
+
         #endregion
 
     }
 }
+    
