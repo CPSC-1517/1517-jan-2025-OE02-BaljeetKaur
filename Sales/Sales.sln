@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountCalculator", "ProjDiscountCalculator\DiscountCalculator.csproj", "{446FFB52-48CA-4602-96B8-B61127663853}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountCalculatorTest", "ProjDiscountCalculatorTest\DiscountCalculatorTest.csproj", "{D491C26B-31FB-4FAD-A05B-94160C26E7C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Employ", "Employ\Employ.csproj", "{627AA564-8B77-4665-820A-1B0C7B842E7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D491C26B-31FB-4FAD-A05B-94160C26E7C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D491C26B-31FB-4FAD-A05B-94160C26E7C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D491C26B-31FB-4FAD-A05B-94160C26E7C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{627AA564-8B77-4665-820A-1B0C7B842E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{627AA564-8B77-4665-820A-1B0C7B842E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{627AA564-8B77-4665-820A-1B0C7B842E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{627AA564-8B77-4665-820A-1B0C7B842E7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
