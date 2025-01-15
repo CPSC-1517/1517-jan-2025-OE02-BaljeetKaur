@@ -66,6 +66,35 @@ namespace OOPsReviewJan14
 
         #endregion
 
+        #region Constructor
+
+        public Employement()
+        {
+            Title = "unknown";
+            Level = SupervisoryLevel.TeamMember;
+            StartDate = DateTime.Today;
+            Year = 0.0;
+
+        }
+
+        public Employement( string title, SupervisoryLevel level , DateTime startdate , double year =0.0)
+        {
+            Title = title;
+            Level = level;
+            
+            if (startdate >= DateTime.Today.AddDays(1))
+            {
+                throw new ArgumentException($"Start date {startdate} is in the future");
+            }
+            StartDate = startdate;
+            Year = year;
+        }
+        #endregion
+
+
+
+
+
     }
 }
     
