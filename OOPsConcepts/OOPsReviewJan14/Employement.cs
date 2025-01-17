@@ -77,7 +77,7 @@ namespace OOPsReviewJan14
 
         }
 
-        public Employement( string title, SupervisoryLevel level , DateTime startdate , double year =0.0)
+        public Employement( string title, SupervisoryLevel level , DateTime startdate , double year )
         {
             Title = title;
             Level = level;
@@ -87,11 +87,47 @@ namespace OOPsReviewJan14
                 throw new ArgumentException($"Start date {startdate} is in the future");
             }
             StartDate = startdate;
+           // using Utility class funtions to do a generic operation
+            if ( !Utilities.IsZeroOrPositive(year))
+            {
+                throw new ArgumentException("The value of year is negative");
+            }
+
             Year = year;
         }
         #endregion
 
+        #region Members
+        // property
+        // method
 
+
+        public void SetEmployementResponsibilityLevel(SupervisoryLevel level)
+        {
+            Level = level;
+        }
+        public void CorrectstartDate(DateTime startdate)
+        {
+            // add validation
+
+            if (startdate >= DateTime.Today.AddDays(1))
+            { throw new ArgumentException($" the satrt date ({startdate}) is in future"); }
+            StartDate = startdate;
+
+            TimeSpan days = DateTime.Today - startdate;
+            Year = Math.Round((days.Days / 365.2), 1);
+        }
+
+        // override the default class method called ToSting()
+
+        public override string ToString()
+        {
+            return $"{Title},{Level},{StartDate.ToString("MM dd yyyy")}, {Year}";
+        }
+
+
+
+        #endregion
 
 
 
