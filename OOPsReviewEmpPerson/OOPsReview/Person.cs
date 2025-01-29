@@ -12,6 +12,9 @@ namespace OOPsReview
         public string LastName { get; set; }
         public ResidentAddress Address { get; set; }
 
+        public List<Employment> EmploymentPositions { get; set; }
+
+       public string  FullName { get { return LastName + ", " + FirstName ; } }
        
 
 
@@ -19,14 +22,15 @@ namespace OOPsReview
         {
             FirstName = "Unknown";
             LastName = "Unknown";
+            EmploymentPositions = new List<Employment>();
             
-
         }
-        public Person( string firstname, string lastname, ResidentAddress address)
+        public Person( string firstname, string lastname, ResidentAddress address, List<Employment> employments)
         {
             FirstName = firstname;
             LastName = lastname;
             Address = address;
+            EmploymentPositions = employments;
 
         }
     }
