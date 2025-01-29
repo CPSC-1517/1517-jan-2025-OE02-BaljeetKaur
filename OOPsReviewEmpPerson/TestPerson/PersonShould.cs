@@ -32,6 +32,8 @@ namespace TestPerson
             string expectedFirstName = "Baljeet" ;
             string expectedLastName = "Kaur";
             ResidentAddress expectedAddress = new ResidentAddress(222, "Maple St", "Edmonton", "AB", "T6Y7U8");
+            Employment one = new Employment("PG I", SupervisoryLevel.TeamMember,DateTime.Parse("2013/10/04"), 6.4);
+            Employment two = new Employment("PG II", SupervisoryLevel.TeamMember, DateTime.Parse("2015/10/04"), 4.4);
 
             //Act
             //sut : subject under testing

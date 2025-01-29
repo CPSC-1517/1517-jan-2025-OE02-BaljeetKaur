@@ -12,7 +12,7 @@ namespace OOPsReview
         public string LastName { get; set; }
         public ResidentAddress Address { get; set; }
 
-        public List<Employment> EmploymentPostions { get; set; }
+       
 
 
         public Person()
