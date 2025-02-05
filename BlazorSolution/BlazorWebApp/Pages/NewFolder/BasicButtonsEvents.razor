@@ -1,0 +1,27 @@
+﻿@page "/basicevents"
+<PageTitle> Basic Events </PageTitle>
+
+<h3>BasicButtonsEvents</h3>
+
+<p> @feedback </p>
+
+@if (!string.IsNullOrWhiteSpace(feedback))
+{
+	<p> @feedback </p>
+}
+else
+{
+	<p> This page has no feedback</p>
+}
+
+@code {
+
+	private string feedback;
+
+	protected override void OnInitialized()
+	{
+		feedback = "On Initialize";
+		base.OnInitialized();
+	}
+
+}
