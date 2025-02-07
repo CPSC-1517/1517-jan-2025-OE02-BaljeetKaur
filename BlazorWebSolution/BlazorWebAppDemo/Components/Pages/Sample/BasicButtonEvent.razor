@@ -5,8 +5,11 @@
 
 <h3>BasicButtonEvent</h3>
 
-
-
+<label for="dataitem">
+	<input type="text" @bind="inputValue" placeholder="Enter String" />
+</label>
+<br />
+<br />
 
 @if (!string.IsNullOrWhiteSpace(feedback))
 {
@@ -18,12 +21,15 @@ else
 }
 
 <button type="submit" class="btn btn-primary" @onclick="OnFirstButtonClick"> CLICK BUTTON to check even or odd</button>
+<br/> <br/>
 
+<button type="submit" class="btn btn-S" @onclick="DataInput"> CLICK BUTTON to see Data Input</button>
 
 @code {
 
 	private string feedback;
 	private Random rnd = new();
+	private string inputValue;
 
 	protected override void OnInitialized()
 	{
@@ -43,5 +49,10 @@ else
 		{
 			feedback = $"The value {oddeven} is ODD";
 		}
+	}
+
+	void DataInput()
+	{
+		feedback = $" You entered >{inputValue}< ";
 	}
 }
