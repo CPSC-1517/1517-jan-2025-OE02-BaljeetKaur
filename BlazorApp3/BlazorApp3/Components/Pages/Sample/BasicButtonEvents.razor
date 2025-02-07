@@ -1,0 +1,19 @@
+﻿@page "/basicevents"
+@rendermode InteractiveServer
+<PageTitle> Basic Events </PageTitle>
+
+<h3>BasicButtonsEvents</h3>
+
+
+@if (!string.IsNullOrWhiteSpace(feedback))
+{
+	<p> @feedback </p>
+}
+
+
+<button type="submit" class="btn btn-primary" @onclick="OnFirstButtonClick">
+Press Me</button>
+
+
+
+

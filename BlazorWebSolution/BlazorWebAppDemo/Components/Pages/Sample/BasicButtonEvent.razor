@@ -1,0 +1,47 @@
+﻿@page "/basicevents"
+@rendermode InteractiveServer
+
+<PageTitle> Basic Button Events</PageTitle>
+
+<h3>BasicButtonEvent</h3>
+
+
+
+
+@if (!string.IsNullOrWhiteSpace(feedback))
+{
+	<p>@feedback</p>
+}
+else
+{
+	<p> There is no feedback till now</p>
+}
+
+<button type="submit" class="btn btn-primary" @onclick="OnFirstButtonClick"> CLICK BUTTON to check even or odd</button>
+
+
+@code {
+
+	private string feedback;
+	private Random rnd = new();
+
+	protected override void OnInitialized()
+	{
+		feedback = " On Initialized ";
+		base.OnInitialized();
+	}
+
+	void OnFirstButtonClick()
+	{
+		int oddeven = rnd.Next(1, 100);
+
+		if (oddeven % 2 == 0)
+		{
+			feedback = $"The value {oddeven} is EVEN";
+		}
+		else
+		{
+			feedback = $"The value {oddeven} is ODD";
+		}
+	}
+}
