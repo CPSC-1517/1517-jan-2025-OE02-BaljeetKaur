@@ -1,4 +1,5 @@
 ﻿@page  "/datacollection"
+@rendermode InteractiveServer
 <PageTitle> Data Collection</PageTitle>
 
 <h3>DataCollection</h3>
@@ -24,7 +25,7 @@ This area will handle the display of collection of error messages, we are using 
 
 @if (errorDictionary.Count()>0)
 {
-	<div> 
+	<div class="alert alert-danger"> 
 		<p> Please fix following errors</p>
 		<ul>
 			@foreach ( var message in errorDictionary.Values)
@@ -54,7 +55,7 @@ Creat our controls
 
 	<div>
 		<label for="years"> Years:  </label>
-		<input id="years" type= "number" @bind=employmentYear />
+		<input id="years" type= "number" @bind=employmentYear step="0.1"/>
 	</div>
 
 	<div>
@@ -65,6 +66,14 @@ Creat our controls
 				<option value="@item"> @item </option>
 			}
 		</select>/>
+	</div>
+
+	<div>
+		<button type="submit" @onclick = "DataProcessing"> Collect Data </button>
+	</div>
+
+	<div>
+		<button type="submit" @onclick="Clear"> Clear </button>
 	</div>
 
 </fieldset>
@@ -79,4 +88,50 @@ Creat our controls
 	private SupervisoryLevel employmentLevel;
 	private double employmentYear;
 	private DateTime employmentStartDate;
+
+	public void Clear()
+	{
+		feedbackMessage = "";
+		errorDictionary.Clear();
+		employmentTitle = "";
+		employmentLevel = SupervisoryLevel.Entry;
+		employmentStartDate = DateTime.Today;
+		employmentYear = 0;
+	}
+
+	public void DataProcessing()
+	{
+		feedbackMessage = "";
+		errorDictionary.Clear();
+
+		// validate incoming data
+		// errorDictionary will hold any message in regard to invalid data
+
+		if(string.IsNullOrWhiteSpace(employmentTitle))
+		{
+			errorDictionary.Add("Title", "Title is required");
+		}
+
+		if (employmentStartDate > DateTime.Today.AddDays(1))
+		{
+			errorDictionary.Add("Start Date", "Start Date can not be a future date");
+		}
+
+		if (!Utilities.IsZeroOrPositive(employmentYear))
+		{
+			errorDictionary.Add("years", "Experience has to be Positive or 0");
+		}
+
+		if (errorDictionary.Count == 0)
+		{
+			Employment employment = new Employment(employmentTitle, employmentLevel, employmentStartDate, employmentYear);
+			feedbackMessage = employment.ToString();
+		}
+	}
+
+
+
+
+
+
 }
