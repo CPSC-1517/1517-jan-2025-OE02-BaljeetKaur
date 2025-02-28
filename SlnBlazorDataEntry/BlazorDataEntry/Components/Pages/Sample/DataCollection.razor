@@ -89,6 +89,8 @@ Creat our controls
 	private double employmentYear;
 	private DateTime employmentStartDate;
 
+
+
 	public void Clear()
 	{
 		feedbackMessage = "";
@@ -99,6 +101,18 @@ Creat our controls
 		employmentYear = 0;
 	}
 
+	public Exception GetInnerException( Exception ex)
+	{
+		while (ex.InnerException != null)
+		{
+			ex = ex.InnerException;
+		}
+		return ex;
+	}
+
+
+
+
 	public void DataProcessing()
 	{
 		feedbackMessage = "";
@@ -106,8 +120,8 @@ Creat our controls
 
 		// validate incoming data
 		// errorDictionary will hold any message in regard to invalid data
-
-		if(string.IsNullOrWhiteSpace(employmentTitle))
+		/*
+		if (string.IsNullOrWhiteSpace(employmentTitle))
 		{
 			errorDictionary.Add("Title", "Title is required");
 		}
@@ -121,14 +135,45 @@ Creat our controls
 		{
 			errorDictionary.Add("years", "Experience has to be Positive or 0");
 		}
-
 		if (errorDictionary.Count == 0)
 		{
+			feedbackMessage = "Good Data";
+		}
+		*/
+		try{
 			Employment employment = new Employment(employmentTitle, employmentLevel, employmentStartDate, employmentYear);
 			feedbackMessage = employment.ToString();
 		}
-	}
 
+		catch (FormatException ex )
+		{
+			errorDictionary.Add("Format", ex.Message);
+		}
+		
+		catch (ArgumentOutOfRangeException ex)
+		{
+			errorDictionary.Add("Range", ex.Message);
+		}
+
+		catch (ArgumentNullException ex)
+		{
+			errorDictionary.Add("Argument", ex.Message);
+		}
+		catch (Exception ex)
+		{
+			errorDictionary.Add("Default", ex.Message);
+		}
+		
+
+
+
+
+
+
+
+
+	
+	}
 
 
 
