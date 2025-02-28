@@ -89,6 +89,11 @@ Creat our controls
 	private double employmentYear;
 	private DateTime employmentStartDate;
 
+	[Inject]
+	public IWebHostEnvironment WebHostEnvironment { get; set; } = default;
+
+
+
 
 
 	public void Clear()
@@ -122,27 +127,34 @@ Creat our controls
 		// errorDictionary will hold any message in regard to invalid data
 		/*
 		if (string.IsNullOrWhiteSpace(employmentTitle))
-		{
+			{
 			errorDictionary.Add("Title", "Title is required");
 		}
 
 		if (employmentStartDate > DateTime.Today.AddDays(1))
-		{
+			{
 			errorDictionary.Add("Start Date", "Start Date can not be a future date");
 		}
 
 		if (!Utilities.IsZeroOrPositive(employmentYear))
-		{
+			{
 			errorDictionary.Add("years", "Experience has to be Positive or 0");
 		}
 		if (errorDictionary.Count == 0)
-		{
+			{
 			feedbackMessage = "Good Data";
 		}
 		*/
 		try{
 			Employment employment = new Employment(employmentTitle, employmentLevel, employmentStartDate, employmentYear);
 			feedbackMessage = employment.ToString();
+
+			string csvFilePathName = $@"{WebHostEnvironment.ContentRootPath}/Data/Emploments.csv";
+
+			string line = employment.ToString();
+
+			System.IO.File.AppendAllText(csvFilePathName, line);
+			feedbackMessage = "Data has been saved in CSV file";
 		}
 
 		catch (FormatException ex )
@@ -164,8 +176,21 @@ Creat our controls
 			errorDictionary.Add("Default", ex.Message);
 		}
 		
+		/* write class data as string to a CSV text file
+		 * A) know the location of the file(filename)
+		 * B) technique to use in writing to file
+		 *		i) SteamWriter/ SteamReader
+				ii) System.IO.File ( handles the streaming of data)
+		 * 
+		      1. obtain the root of your application using injection service IWebHostEnvironment via property injection
+			  2. use relative addressing starting at top of your application
+		 */
+
+		
 
 
+
+		 
 
 
 
