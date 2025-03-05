@@ -149,9 +149,9 @@ Creat our controls
 			Employment employment = new Employment(employmentTitle, employmentLevel, employmentStartDate, employmentYear);
 			feedbackMessage = employment.ToString();
 
-			string csvFilePathName = $@"{WebHostEnvironment.ContentRootPath}/Data/Emploments.csv";
+			string csvFilePathName = $@"{WebHostEnvironment.ContentRootPath}/Data/Employments.csv";
 
-			string line = employment.ToString();
+			string line = $"{employment.ToString()}\n";
 
 			System.IO.File.AppendAllText(csvFilePathName, line);
 			feedbackMessage = "Data has been saved in CSV file";

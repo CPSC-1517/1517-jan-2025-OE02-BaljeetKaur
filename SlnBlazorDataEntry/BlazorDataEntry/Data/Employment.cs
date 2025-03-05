@@ -227,6 +227,21 @@ namespace OOPsReview
         }
 
         //Methods (aka Behaviours)
+        public static Employment Parse(string item)
+        {
+            string[] pieces = item.Split(',');
+
+            if (pieces.Length != 4)
+            {
+                throw new FormatException($"Not proper format missing/extra values");
+            }
+
+            return new Employment(pieces[0], (SupervisoryLevel)Enum.Parse(typeof(SupervisoryLevel), pieces[1]), DateTime.Parse(pieces[2]), double.Parse(pieces[3]));
+            //return new Employment(pieces[0], (SupervisoryLevel)Enum.Parse(typeof(SupervisoryLevel), pieces[1]), DateTime.Parse(pieces[2]), double.Parse(pieces[3]));
+
+        }
+
+
         public override string ToString()
         {
             //this string is known as a "comma separate value" string (csv)
