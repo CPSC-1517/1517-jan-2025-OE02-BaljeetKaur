@@ -10,12 +10,12 @@ namespace ClassWestWindsystem.Entity;
 
 public partial class Territory
 {
-    [Key]
-    [StringLength(20)]
+    [Key,DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [StringLength(20,ErrorMessage ="Territory ID is limited to 20 characters", MinimumLength = 8)]
     public string TerritoryID { get; set; }
 
-    [Required]
-    [StringLength(50)]
+    [Required(ErrorMessage ="Territory Description is required field")]
+    [StringLength(50,ErrorMessage ="Territory Description is limited to 50 Characters")]
     public string TerritoryDescription { get; set; }
 
     public int RegionID { get; set; }
