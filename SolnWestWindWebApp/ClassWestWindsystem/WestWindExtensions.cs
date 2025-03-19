@@ -10,7 +10,7 @@ using ClassWestWindsystem.BLL;
 using ClassWestWindsystem.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-//using ClassWestWindsystem.BLL;
+using ClassWestWindsystem.BLL;
 #endregion
 
 
@@ -49,14 +49,25 @@ namespace ClassWestWindsystem
                 // get the context of the class that was registered above
                 var context = serviceProvider.GetService<WestWindContext>();
 
-            
             // create instance of the service class
             // supply the context reference to service class constuctor
 
             return new BuildVersionServices(context);
             });
 
-            
+            services.AddTransient<RegionServices>((serviceProvider) =>
+            {
+                // get the context of the class that was registered above
+                var context = serviceProvider.GetService<WestWindContext>();
+
+                // create instance of the service class
+                // supply the context reference to service class constuctor
+
+                return new RegionServices(context);
+            });
+
+
+
 
 
         }

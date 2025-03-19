@@ -1,0 +1,134 @@
+﻿@page "/regionqueries"
+<PageTitle>Region Queries</PageTitle>
+@rendermode InteractiveServer
+
+@using ClassWestWindsystem.BLL;
+@using ClassWestWindsystem.Entity;
+
+<h1>Region Queries</h1>
+
+<br />
+
+
+@if (feedbackMessage.Length > 0)
+{
+	<div>
+		@feedbackMessage
+	</div>
+}
+
+<!--
+
+This area will handle the display of collection of error messages, we are using Dictionary
+-->
+@if (errorDictionary.Count() > 0)
+{
+	<div class="alert alert-danger">
+		<p> Please fix following errors</p>
+		<ul>
+			@foreach (var message in errorDictionary.Values)
+			{
+				<li> @message </li>
+			}
+		</ul>
+
+	</div>
+
+}
+
+<!--Creat our controls--->
+
+<div class="row">
+	<div class="col-md-6">
+
+		<fieldset>
+			<div>
+				<label for="regionid"> Enter the Region ID:  </label>
+				<input id="regionid" type="number" @bind="regionidarg" />
+				<button type="submit" class="btn btn-outline-primary" @onclick="GetByID"> Fetch by Region ID </button>
+			</div>
+
+			<div>
+				<label for="regionlist"> Select a Region to view:  </label>
+				<select id="regionlist" @bind="regionselectarg">
+					@foreach (var item in regionlist)
+					{
+						<option value="@item.RegionID"> @item.RegionDescription </option>
+					}
+				</select>/>
+				<button type="submit" class="btn btn-outline-secondary" @onclick="GetByList"> Fetch by selected list item </button>
+			</div>
+
+		</fieldset>
+
+
+	</div>
+
+	<div class="col-md-6">
+	</div>
+
+</div>
+
+
+
+
+
+<h3>RegionQueries</h3>
+
+@code {
+
+	private string feedbackMessage = "Test";
+	private Dictionary<string, string> errorDictionary = new();
+
+	private int regionidarg= 0;
+	private int regionselectarg = 0;
+	private List<Region> regionlist = new();
+	private Region dataInfo = null;
+
+	[Inject]
+	private RegionServices _regionServices { get; set; }
+
+	public Exception GetInnerException(Exception ex)
+	{
+		while (ex.InnerException != null)
+		{
+			ex = ex.InnerException;
+		}
+		return ex;
+	}
+
+
+
+	//Button Click Event
+	//metohd should consume the BLL method in RegionServices to get the region by ID 
+	private void GetByID()
+	{
+
+		feedbackMessage = "";
+		errorDictionary.Clear();
+		dataInfo = null;
+
+		if (regionidarg <= 0)
+		{
+			errorDictionary.Add("regionID", "Region ID should be a positive value");
+		}
+		else
+		{
+			// consume the service
+			//inject the service
+			// variable to hold the return value of service call
+
+			dataInfo = _regionServices.Region_GetByID(regionidarg);
+		}
+
+
+
+	}
+
+	public void GetByList()
+	{
+
+	}
+
+
+}
