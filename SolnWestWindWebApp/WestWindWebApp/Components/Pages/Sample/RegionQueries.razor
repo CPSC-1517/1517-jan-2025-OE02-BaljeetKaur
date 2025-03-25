@@ -40,7 +40,7 @@ This area will handle the display of collection of error messages, we are using 
 
 <div class="row">
 	<div class="col-md-6">
-
+		<!--Left Block-->
 		<fieldset>
 			<div>
 				<label for="regionid"> Enter the Region ID:  </label>
@@ -56,7 +56,7 @@ This area will handle the display of collection of error messages, we are using 
 						<option value="@item.RegionID"> @item.RegionDescription </option>
 					}
 				</select>/>
-				<button type="submit" class="btn btn-outline-secondary" @onclick="GetByList"> Fetch by selected list item </button>
+				<button type="submit" class="btn btn-outline-primary" @onclick="GetByList"> Fetch by selected list item </button>
 			</div>
 
 		</fieldset>
@@ -65,6 +65,8 @@ This area will handle the display of collection of error messages, we are using 
 	</div>
 
 	<div class="col-md-6">
+		<!--Right Block-->
+
 	</div>
 
 </div>
@@ -77,7 +79,7 @@ This area will handle the display of collection of error messages, we are using 
 
 @code {
 
-	private string feedbackMessage = "Test";
+	private string feedbackMessage = "";
 	private Dictionary<string, string> errorDictionary = new();
 
 	private int regionidarg= 0;
@@ -86,7 +88,7 @@ This area will handle the display of collection of error messages, we are using 
 	private Region dataInfo = null;
 
 	[Inject]
-	private RegionServices _regionServices { get; set; }
+	RegionServices _regionServices { get; set; }
 
 	public Exception GetInnerException(Exception ex)
 	{
@@ -96,7 +98,15 @@ This area will handle the display of collection of error messages, we are using 
 		}
 		return ex;
 	}
-
+	//if you need to assign values to control prior to displaying the page
+	//  then you need to do the logic on the page intialization
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		//consume the service to get a list of all regions
+		regionlist = _regionServices.Region_GetAll();
+		
+	}
 
 
 	//Button Click Event
@@ -127,8 +137,24 @@ This area will handle the display of collection of error messages, we are using 
 
 	public void GetByList()
 	{
+		//clear old all old messages and data
+		feedbackMessage = "";
+		errorDictionary.Clear();
+		dataInfo = null;
 
+		//validate incoming values, did I select a region, the prompt is 0
+		if (regionselectarg == 0)
+		{
+
+			errorDictionary.Add("er1","Please select a region to review.");
+		}
+		else
+		{
+			//consume a service
+			dataInfo = _regionServices.Region_GetByID(regionselectarg);
+		}
 	}
+}
 
 
 }

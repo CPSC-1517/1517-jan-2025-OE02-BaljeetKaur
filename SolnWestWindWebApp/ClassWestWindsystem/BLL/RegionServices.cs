@@ -25,10 +25,10 @@ namespace ClassWestWindsystem.BLL
 
         #endregion
 
-        public List<Region> Region_GetList()
+        public List<Region> Region_GetAll()
         {
-            IEnumerable<Region> info = _context.Regions.OrderBy(r => r.RegionDescription);
-            return info.ToList();
+            IEnumerable<Region> info = _context.Regions;
+            return info.OrderBy(x => x.RegionDescription).ToList();
         }
 
 
@@ -37,7 +37,8 @@ namespace ClassWestWindsystem.BLL
         public Region Region_GetByID(int regionID)
         {
 
-            Region info = _context.Regions.Where(r => r.RegionID == regionID).FirstOrDefault();
+            Region info = _context.Regions.FirstOrDefault(x => x.RegionID == regionID);
+
 
             return info;
         }
