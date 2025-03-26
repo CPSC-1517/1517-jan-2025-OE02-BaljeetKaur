@@ -1,5 +1,121 @@
-﻿<h3>ShipmentQueries</h3>
+﻿@page "/shipmentquery"
+<PageTitle> Shipment Query</PageTitle>
+<h3>ShipmentQueries</h3>
+@rendermode InteractiveServer
+
+@using ClassWestWindsystem.BLL;
+@using ClassWestWindsystem.Entity;
+
+
+@if (feedbackMessage.Length > 0)
+{
+	<div>
+		@feedbackMessage
+	</div>
+}
+
+<!--
+
+This area will handle the display of collection of error messages, we are using Dictionary
+-->
+@if (errormsgs.Count() > 0)
+{
+	<div class="alert alert-danger">
+		<p> Please fix following errors</p>
+		<ul>
+			@foreach (var message in errormsgs)
+			{
+				<li> @message </li>
+			}
+		</ul>
+
+	</div>
+
+}
+
+<div class="row">
+	<div class="offset-1 col-md-5">
+		<p> Input Query Values</p>
+		<label for="date"> Enter Shipment Date:  </label> &nbsp;&nbsp;
+		<input id="date" type="date" @bind="yearmontharg" style="width:100px" />&nbsp;&nbsp;
+		<button type="submit" @onclick= "GetByYearMonth" class="btn btn-outline-primary rounded-pill"></button>
+
+	</div>
+	<div class="col-md-5">
+		<p><strong> Display Query Results</strong></p>
+
+		<div class="overflow-scroll" style="height:450px;">
+			<thead>
+				<tr>
+					<th> ID </th>
+					<th> ORDER </th>
+					<th> SHIPPER </th>
+					<th> FREIGHT </th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@foreach (var item in datainfo)
+				{
+					<tr>
+						<td>@item.ShipmentID</td>
+						<td>@item.OrderID</td>
+						<td>@item.ShipVia</td>
+						<td>@item.FreightCharge</td>
+					</tr>
+				}
+			</tbody>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+
+
+
+
+
 
 @code {
+
+
+	private string feedbackMessage = "";
+	List<string> errormsgs = new();
+	private DateTime yearmontharg;
+	[Inject]
+	ShipmentServices _shipmentServices { get; set; }
+	private List<Shipment> datainfo = new();
+
+
+
+	// Method to consume Shipment Service
+
+	public void GetByYearMonth()
+	{
+		feedbackMessage = "";
+		errormsgs.Clear();
+		datainfo.Clear();
+
+
+		datainfo = _shipmentServices.Shipment_GetByYearMonth(yearmontharg);
+		if (datainfo == null)
+		{
+			feedbackMessage = "No Records Found";
+		}
+		else
+		{
+			feedbackMessage = $"Found {datainfo.Count} records";
+		}
+
+
+
+	}
+
+
+
+
 
 }
