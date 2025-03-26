@@ -67,6 +67,21 @@ This area will handle the display of collection of error messages, we are using 
 	<div class="col-md-6">
 		<!--Right Block-->
 
+		@if (dataInfo==null)
+		{
+			<p> No data to display</p>
+		}
+		else
+		{
+			<div> 
+				<h3> Region Information</h3>
+				<p> Region ID: @dataInfo.RegionID</p>
+				<p> Region Description: @dataInfo.RegionDescription</p>
+			</div>
+
+
+		}
+
 	</div>
 
 </div>
