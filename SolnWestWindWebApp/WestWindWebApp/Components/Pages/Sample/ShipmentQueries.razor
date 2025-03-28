@@ -49,6 +49,7 @@ This area will handle the display of collection of error messages, we are using 
 				<tr>
 					<th> ID </th>
 					<th> ORDER </th>
+					<th> SHIPVIA</th>
 					<th> SHIPPER </th>
 					<th> FREIGHT </th>
 				</tr>
@@ -61,6 +62,7 @@ This area will handle the display of collection of error messages, we are using 
 						<td>@item.ShipmentID</td>
 						<td>@item.OrderID</td>
 						<td>@item.ShipVia</td>
+						<td>@item.ShipViaNavigation.CompanyName</td>
 						<td>@item.FreightCharge</td>
 					</tr>
 				}
@@ -85,11 +87,25 @@ This area will handle the display of collection of error messages, we are using 
 	private string feedbackMessage = "";
 	List<string> errormsgs = new();
 	private DateTime yearmontharg;
+
+	
 	[Inject]
 	ShipmentServices _shipmentServices { get; set; }
 	private List<Shipment> datainfo = new();
 
+	[Inject]
+	ShipperServices _shipperServices { get; set; }
+	private List<Shipper> shipperinfo = new();
 
+
+	protected override void OnInitialized()
+	{
+		//using the .Include method on the query itself (see Shipment query for this technique in BLL ShipmentServices)
+		shipperinfo = _shipperServices.Shippter_ShipperShipmentList();
+
+		yearmontharg = DateTime.Parse("2018-01-01");
+		base.OnInitialized();
+	}
 
 	// Method to consume Shipment Service
 
