@@ -58,6 +58,35 @@ namespace ClassWestWindsystem
                 return new ShipperServices(context);
             });
 
+            // Register SupplierServices
+            services.AddTransient<SupplierServices>((serviceProvider) =>
+            {
+                // Resolve the DbContext from the service provider.
+                var context = serviceProvider.GetRequiredService<WestWindContext>();
+
+                // Create and return an instance of RegionServices.
+                return new SupplierServices(context);
+            });
+            
+            // Register CategoryServices
+            services.AddTransient<CategoryServices>((serviceProvider) =>
+            {
+                // Resolve the DbContext from the service provider.
+                var context = serviceProvider.GetRequiredService<WestWindContext>();
+
+                // Create and return an instance of RegionServices.
+                return new CategoryServices(context);
+            });
+
+            // Register ProductServices
+            services.AddTransient<ProductServices>((serviceProvider) =>
+            {
+                // Resolve the DbContext from the service provider.
+                var context = serviceProvider.GetRequiredService<WestWindContext>();
+
+                // Create and return an instance of RegionServices.
+                return new ProductServices(context);
+            });
             // Add more service registrations here as needed.
         }
     }
