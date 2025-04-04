@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 #region Additional Namespace
 using ClassWestWindsystem.DAL;
 using ClassWestWindsystem.Entity;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Identity.Client;
 #endregion
 
@@ -94,8 +95,41 @@ namespace ClassWestWindsystem.BLL
 
         }
 
+        ///UPDATE 
+        public int Product_Update(Product item)
+        {
+            if (item == null)
+            {
+                throw new ArgumentNullException("You must supply the Product Information"); 
+            }
+
+            bool exists = false;
+
+            exists = _context.Products.Any(p => p.ProductID == item.ProductID);
+            if (!exists)
+            {
+                throw new ArgumentException($" Product {item.ProductName} is not in database file,Please check");
+            }
 
 
+            exists = _context.Products.Any(p=> p.SupplierID==item.SupplierID
+                                             && p.ProductName== item.ProductName
+                                             && p.QuantityPerUnit.Equals(item.QuantityPerUnit)
+                                             && p.ProductID != item.ProductID);
+            if (exists)
+            {
+                throw new ArgumentException($" Product {item.ProductName} exist for the same supplier" +
+                    $" and with same amount of Quanty per unit");
+
+            }
+
+            EntityEntry<Product> updating = _context.Entry(item);
+            updating.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            //commit
+
+            return _context.SaveChanges();
+        }
         #endregion
 
     }

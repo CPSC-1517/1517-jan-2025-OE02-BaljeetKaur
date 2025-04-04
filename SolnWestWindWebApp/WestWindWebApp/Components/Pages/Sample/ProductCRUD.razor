@@ -1,4 +1,4 @@
-﻿@page "/productcrud/{productid:int ?}"
+﻿@page "/productcrud/{productid:int?}"
 <!--
     on the page directive above, a routing parameter has been add syntax: /routingname/{parametername:datatype}
     this will allow an integer value to be passed to this page
@@ -144,19 +144,21 @@
         </div>
     </div>
     <br />
+
     <div class="row">
         <div class="offset-1 col-md-10 text-center">
             <button type="submit" class="btn btn-outline-primary rounded-pill"
                     @onclick="OnCreate" style="width:180px;">
                 Create
             </button>
-
             &nbsp;&nbsp;
-
-            }
-
-
+            <button type="submit" class="btn btn-outline-secondary rounded-pill"
+                    @onclick="OnUpdate" style="width:180px;">
+                Update
+            </button>
             &nbsp;&nbsp;
+            
+
             <button type="submit" class="btn btn-outline-secondary rounded-pill"
                     @onclick="OnClear" style="width:180px;">
                 Clear
@@ -222,8 +224,8 @@
         //            the current record on the database should be displayed to the user
         //            within this method, lookup the record to display
         //since the productid is a nullable variable, add the .Value to obtain the value
-        //if (productid.HasValue)
-          //  CurrentProduct = _productServices.Product_GetByID(productid.Value);
+        if (productid.HasValue)
+            CurrentProduct = _productServices.Product_GetByID(productid.Value);
 
         //create the EditContext instance and tie to the entity of the form
         editContext = new EditContext(CurrentProduct);
@@ -337,6 +339,75 @@
         }
     }
 
+    private void OnUpdate()
+    {
+        //clear out all old messages
+        feedbackmsg = "";
+        errormsgs.Clear();
+        validationMessageStore.Clear();
+
+        try
+        {
+            //check to see if the form passes the validation of the entity
+            if (editContext.Validate())
+            {
+
+                if (CurrentProduct.CategoryID == 0)
+                {
+                    validationMessageStore.Add(editContext.Field(nameof(CurrentProduct.CategoryID)),
+                                "You must select a category.");
+                }
+                if (CurrentProduct.SupplierID == 0)
+                {
+                    validationMessageStore.Add(editContext.Field(nameof(CurrentProduct.SupplierID)),
+                                 "You must select a supplier.");
+                }
+
+                if (editContext.GetValidationMessages().Any())
+                {
+                    editContext.NotifyValidationStateChanged();
+                }
+                else
+                {
+                    //the program assumes that the data is clean and can be further processed
+
+                    int rowsaffected = _productServices.Product_Update(CurrentProduct);
+
+
+                    //SPECIAL!!!!!!! use to check that the result of a rowaffected
+                    //  being 0 because an update was done BUT no record was actually altered
+                    //Comment out OR remove after doing the message check
+                    //rowsaffected = 0;
+
+                    //the rowsaffected will dictate the message sent to the user
+                    if (rowsaffected != 0)
+                    {
+                        feedbackmsg = $"Product {CurrentProduct.ProductName} (ID: {CurrentProduct.ProductID}) has been updated on the database.";
+                    }
+                    else
+                    {
+                        feedbackmsg = $"Product {CurrentProduct.ProductName} " +
+                                    $" (ID: {CurrentProduct.ProductID}) has not been updated. " +
+                                    " Check to see if the product still exists on file.";
+                    }
+                }
+            }
+
+        }
+        catch (ArgumentNullException ex)
+        {
+            errormsgs.Add($"Missing Data: {GetInnerException(ex).Message}");
+        }
+        catch (ArgumentException ex)
+        {
+            errormsgs.Add($"Data Issue: {GetInnerException(ex).Message}");
+        }
+        catch (Exception ex)
+        {
+            errormsgs.Add($"System Error: {GetInnerException(ex).Message}");
+        }
+    }
+
     private void OnActivate()
     {
         feedbackmsg = "";
@@ -367,3 +438,4 @@
         }
     }
 }
+
