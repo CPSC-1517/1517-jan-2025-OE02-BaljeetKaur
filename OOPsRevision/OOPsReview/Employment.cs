@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOPsReview
+namespace OOPsReview   
 {
     public class Employment
     {
         //a class is a programmer defined data-type
 
-        //data member
+        
+        // private data members
         //standards:
         //  will be private
         //  names will begin with an underscore (_)
